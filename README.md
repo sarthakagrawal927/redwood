@@ -4,6 +4,11 @@ Personal Experience : It is too powerful, little buggy sometimes but pretty easy
 
 I would not be continuing with the tutorial or any project with this right now but in future definitely will.
 
+Uses Netlitfy and Vercel for deployment,
+Netlify for Auth & Rail.app for Postgresql
+
+Has ReactJS in front end with graphql with apollo in the backend.
+
 > **WARNING:** RedwoodJS software has not reached a stable version 1.0 and should not be considered suitable for production use. In the "make it work; make it right; make it fast" paradigm, Redwood is in the later stages of the "make it work" phase.
 
 ## Getting Started
