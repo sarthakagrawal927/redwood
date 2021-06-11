@@ -16,15 +16,24 @@ export type Scalars = {
   Time: string;
 };
 
+export type Contact = {
+  __typename?: 'Contact';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+  message: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+};
+
+export type CreateContactInput = {
+  name: Scalars['String'];
+  email: Scalars['String'];
+  message: Scalars['String'];
+};
+
 export type CreatePostInput = {
   title: Scalars['String'];
   body: Scalars['String'];
-};
-
-export type CreateUserInput = {
-  name: Scalars['String'];
-  email: Scalars['String'];
-  githubLink: Scalars['String'];
 };
 
 
@@ -34,31 +43,13 @@ export type CreateUserInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createPost: Post;
-  createUser: User;
-  deletePost: Post;
-  deleteUser: User;
   updatePost: Post;
-  updateUser: User;
+  deletePost: Post;
 };
 
 
 export type MutationCreatePostArgs = {
   input: CreatePostInput;
-};
-
-
-export type MutationCreateUserArgs = {
-  input: CreateUserInput;
-};
-
-
-export type MutationDeletePostArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type MutationDeleteUserArgs = {
-  id: Scalars['Int'];
 };
 
 
@@ -68,9 +59,8 @@ export type MutationUpdatePostArgs = {
 };
 
 
-export type MutationUpdateUserArgs = {
+export type MutationDeletePostArgs = {
   id: Scalars['Int'];
-  input: UpdateUserInput;
 };
 
 export type Post = {
@@ -83,20 +73,14 @@ export type Post = {
 
 export type Query = {
   __typename?: 'Query';
+  contacts: Array<Contact>;
   post?: Maybe<Post>;
   posts: Array<Post>;
   redwood?: Maybe<Redwood>;
-  user?: Maybe<User>;
-  users: Array<User>;
 };
 
 
 export type QueryPostArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type QueryUserArgs = {
   id: Scalars['Int'];
 };
 
@@ -108,24 +92,15 @@ export type Redwood = {
 };
 
 
+export type UpdateContactInput = {
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+};
+
 export type UpdatePostInput = {
   title?: Maybe<Scalars['String']>;
   body?: Maybe<Scalars['String']>;
-};
-
-export type UpdateUserInput = {
-  name?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  githubLink?: Maybe<Scalars['String']>;
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  email: Scalars['String'];
-  githubLink: Scalars['String'];
-  createdAt: Scalars['DateTime'];
 };
 
 export type FindBlogPostQueryVariables = Exact<{
