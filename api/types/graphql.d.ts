@@ -1,185 +1,372 @@
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from 'graphql'
+export type Maybe<T> = T | null
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K]
+}
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> }
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> }
+export type RequireFields<T, K extends keyof T> = {
+  [X in Exclude<keyof T, K>]?: T[X]
+} &
+  { [P in K]-?: NonNullable<T[P]> }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  Date: string;
-  DateTime: string;
-  JSON: Record<string, unknown>;
-  JSONObject: Record<string, unknown>;
-  Time: string;
-};
+  ID: string
+  String: string
+  Boolean: boolean
+  Int: number
+  Float: number
+  Date: string
+  DateTime: string
+  JSON: Record<string, unknown>
+  JSONObject: Record<string, unknown>
+  Time: string
+}
 
+export type CreatePostInput = {
+  title: Scalars['String']
+  body: Scalars['String']
+}
 
+export type Mutation = {
+  __typename?: 'Mutation'
+  createPost: Post
+  deletePost: Post
+  updatePost: Post
+}
 
+export type MutationCreatePostArgs = {
+  input: CreatePostInput
+}
 
+export type MutationDeletePostArgs = {
+  id: Scalars['Int']
+}
 
-export type Query = {
-  __typename?: 'Query';
-  redwood?: Maybe<Redwood>;
-};
+export type MutationUpdatePostArgs = {
+  id: Scalars['Int']
+  input: UpdatePostInput
+}
+
+export type Post = {
+  __typename?: 'Post'
+  id: Scalars['Int']
+  title: Scalars['String']
+  body: Scalars['String']
+  createdAt: Scalars['DateTime']
+}
+
+export type QueryPostArgs = {
+  id: Scalars['Int']
+}
 
 export type Redwood = {
-  __typename?: 'Redwood';
-  version?: Maybe<Scalars['String']>;
-  currentUser?: Maybe<Scalars['JSON']>;
-  prismaVersion?: Maybe<Scalars['String']>;
-};
+  __typename?: 'Redwood'
+  version?: Maybe<Scalars['String']>
+  currentUser?: Maybe<Scalars['JSON']>
+  prismaVersion?: Maybe<Scalars['String']>
+}
 
+export type UpdatePostInput = {
+  title?: Maybe<Scalars['String']>
+  body?: Maybe<Scalars['String']>
+}
 
-
-
-export type ResolverTypeWrapper<T> = Promise<T> | T;
-
+export type ResolverTypeWrapper<T> = Promise<T> | T
 
 export type LegacyStitchingResolver<TResult, TParent, TContext, TArgs> = {
-  fragment: string;
-  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
-};
+  fragment: string
+  resolve: ResolverFn<TResult, TParent, TContext, TArgs>
+}
 
 export type NewStitchingResolver<TResult, TParent, TContext, TArgs> = {
-  selectionSet: string;
-  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
-};
-export type StitchingResolver<TResult, TParent, TContext, TArgs> = LegacyStitchingResolver<TResult, TParent, TContext, TArgs> | NewStitchingResolver<TResult, TParent, TContext, TArgs>;
+  selectionSet: string
+  resolve: ResolverFn<TResult, TParent, TContext, TArgs>
+}
+export type StitchingResolver<TResult, TParent, TContext, TArgs> =
+  | LegacyStitchingResolver<TResult, TParent, TContext, TArgs>
+  | NewStitchingResolver<TResult, TParent, TContext, TArgs>
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
   | ResolverFn<TResult, TParent, TContext, TArgs>
-  | StitchingResolver<TResult, TParent, TContext, TArgs>;
+  | StitchingResolver<TResult, TParent, TContext, TArgs>
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
   info: GraphQLResolveInfo
-) => Promise<TResult> | TResult;
+) => Promise<TResult> | TResult
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
   info: GraphQLResolveInfo
-) => AsyncIterator<TResult> | Promise<AsyncIterator<TResult>>;
+) => AsyncIterator<TResult> | Promise<AsyncIterator<TResult>>
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
   info: GraphQLResolveInfo
-) => TResult | Promise<TResult>;
+) => TResult | Promise<TResult>
 
-export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
-  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
-  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs
+> {
+  subscribe: SubscriptionSubscribeFn<
+    { [key in TKey]: TResult },
+    TParent,
+    TContext,
+    TArgs
+  >
+  resolve?: SubscriptionResolveFn<
+    TResult,
+    { [key in TKey]: TResult },
+    TContext,
+    TArgs
+  >
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
-  subscribe: SubscriptionSubscribeFn<any, TParent, TContext, TArgs>;
-  resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
+  subscribe: SubscriptionSubscribeFn<any, TParent, TContext, TArgs>
+  resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>
 }
 
-export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
+export type SubscriptionObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs
+> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
-  | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
+  | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>
 
-export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
-  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
-  | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
+export type SubscriptionResolver<
+  TResult,
+  TKey extends string,
+  TParent = {},
+  TContext = {},
+  TArgs = {}
+> =
+  | ((
+      ...args: any[]
+    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+  | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
   info: GraphQLResolveInfo
-) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
+) => Maybe<TTypes> | Promise<Maybe<TTypes>>
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo
+) => boolean | Promise<boolean>
 
-export type NextResolverFn<T> = () => Promise<T>;
+export type NextResolverFn<T> = () => Promise<T>
 
-export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
+export type DirectiveResolverFn<
+  TResult = {},
+  TParent = {},
+  TContext = {},
+  TArgs = {}
+> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
   context: TContext,
   info: GraphQLResolveInfo
-) => TResult | Promise<TResult>;
+) => TResult | Promise<TResult>
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Date: ResolverTypeWrapper<Scalars['Date']>;
-  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
-  JSON: ResolverTypeWrapper<Scalars['JSON']>;
-  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
-  Query: ResolverTypeWrapper<{}>;
-  Redwood: ResolverTypeWrapper<Redwood>;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  Time: ResolverTypeWrapper<Scalars['Time']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-};
+  CreatePostInput: CreatePostInput
+  String: ResolverTypeWrapper<Scalars['String']>
+  CreateUserInput: CreateUserInput
+  Date: ResolverTypeWrapper<Scalars['Date']>
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>
+  JSON: ResolverTypeWrapper<Scalars['JSON']>
+  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>
+  Mutation: ResolverTypeWrapper<{}>
+  Int: ResolverTypeWrapper<Scalars['Int']>
+  Post: ResolverTypeWrapper<Post>
+  Query: ResolverTypeWrapper<{}>
+  Redwood: ResolverTypeWrapper<Redwood>
+  Time: ResolverTypeWrapper<Scalars['Time']>
+  UpdatePostInput: UpdatePostInput
+  UpdateUserInput: UpdateUserInput
+  User: ResolverTypeWrapper<User>
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>
+}
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Date: Scalars['Date'];
-  DateTime: Scalars['DateTime'];
-  JSON: Scalars['JSON'];
-  JSONObject: Scalars['JSONObject'];
-  Query: {};
-  Redwood: Redwood;
-  String: Scalars['String'];
-  Time: Scalars['Time'];
-  Boolean: Scalars['Boolean'];
-};
-
-export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
-  name: 'Date';
+  CreatePostInput: CreatePostInput
+  String: Scalars['String']
+  CreateUserInput: CreateUserInput
+  Date: Scalars['Date']
+  DateTime: Scalars['DateTime']
+  JSON: Scalars['JSON']
+  JSONObject: Scalars['JSONObject']
+  Mutation: {}
+  Int: Scalars['Int']
+  Post: Post
+  Query: {}
+  Redwood: Redwood
+  Time: Scalars['Time']
+  UpdatePostInput: UpdatePostInput
+  UpdateUserInput: UpdateUserInput
+  User: User
+  Boolean: Scalars['Boolean']
 }
 
-export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
-  name: 'DateTime';
+export interface DateScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date'
 }
 
-export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
-  name: 'JSON';
+export interface DateTimeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime'
 }
 
-export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
-  name: 'JSONObject';
+export interface JsonScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON'
 }
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  redwood?: Resolver<Maybe<ResolversTypes['Redwood']>, ParentType, ContextType>;
-};
+export interface JsonObjectScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+  name: 'JSONObject'
+}
 
-export type RedwoodResolvers<ContextType = any, ParentType extends ResolversParentTypes['Redwood'] = ResolversParentTypes['Redwood']> = {
-  version?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  currentUser?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
-  prismaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
+export type MutationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
+> = {
+  createPost?: Resolver<
+    ResolversTypes['Post'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreatePostArgs, 'input'>
+  >
+  createUser?: Resolver<
+    ResolversTypes['User'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateUserArgs, 'input'>
+  >
+  deletePost?: Resolver<
+    ResolversTypes['Post'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeletePostArgs, 'id'>
+  >
+  deleteUser?: Resolver<
+    ResolversTypes['User'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteUserArgs, 'id'>
+  >
+  updatePost?: Resolver<
+    ResolversTypes['Post'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdatePostArgs, 'id' | 'input'>
+  >
+  updateUser?: Resolver<
+    ResolversTypes['User'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateUserArgs, 'id' | 'input'>
+  >
+}
 
-export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
-  name: 'Time';
+export type PostResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']
+> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  body?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
+> = {
+  post?: Resolver<
+    Maybe<ResolversTypes['Post']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPostArgs, 'id'>
+  >
+  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>
+  redwood?: Resolver<Maybe<ResolversTypes['Redwood']>, ParentType, ContextType>
+}
+
+export type RedwoodResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Redwood'] = ResolversParentTypes['Redwood']
+> = {
+  version?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  currentUser?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>
+  prismaVersion?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export interface TimeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
+  name: 'Time'
+}
+
+export type UserResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
+> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  githubLink?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type Resolvers<ContextType = any> = {
-  Date?: GraphQLScalarType;
-  DateTime?: GraphQLScalarType;
-  JSON?: GraphQLScalarType;
-  JSONObject?: GraphQLScalarType;
-  Query?: QueryResolvers<ContextType>;
-  Redwood?: RedwoodResolvers<ContextType>;
-  Time?: GraphQLScalarType;
-};
-
+  Date?: GraphQLScalarType
+  DateTime?: GraphQLScalarType
+  JSON?: GraphQLScalarType
+  JSONObject?: GraphQLScalarType
+  Mutation?: MutationResolvers<ContextType>
+  Post?: PostResolvers<ContextType>
+  Query?: QueryResolvers<ContextType>
+  Redwood?: RedwoodResolvers<ContextType>
+  Time?: GraphQLScalarType
+  User?: UserResolvers<ContextType>
+}
 
 /**
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type IResolvers<ContextType = any> = Resolvers<ContextType>

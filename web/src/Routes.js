@@ -8,11 +8,19 @@
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
 import { Router, Route, Set } from '@redwoodjs/router'
+import PostsLayout from 'src/layouts/PostsLayout'
 import BlogLayout from './layouts/BlogLayout/BlogLayout'
 
 const Routes = () => {
   return (
     <Router>
+      <Route path="/blog-post/{id:Int}" page={BlogPostPage} name="blogPost" />
+      <Set wrap={PostsLayout}>
+        <Route path="/posts/new" page={NewPostPage} name="newPost" />
+        <Route path="/posts/{id:Int}/edit" page={EditPostPage} name="editPost" />
+        <Route path="/posts/{id:Int}" page={PostPage} name="post" />
+        <Route path="/posts" page={PostsPage} name="posts" />
+      </Set>
       <Set wrap={BlogLayout}>
         {' '}
         <Route path="/about" page={AboutPage} name="about" />
