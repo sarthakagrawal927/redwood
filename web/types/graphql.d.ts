@@ -42,9 +42,15 @@ export type CreatePostInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createContact?: Maybe<Contact>;
   createPost: Post;
-  updatePost: Post;
   deletePost: Post;
+  updatePost: Post;
+};
+
+
+export type MutationCreateContactArgs = {
+  input: CreateContactInput;
 };
 
 
@@ -53,14 +59,14 @@ export type MutationCreatePostArgs = {
 };
 
 
-export type MutationUpdatePostArgs = {
+export type MutationDeletePostArgs = {
   id: Scalars['Int'];
-  input: UpdatePostInput;
 };
 
 
-export type MutationDeletePostArgs = {
+export type MutationUpdatePostArgs = {
   id: Scalars['Int'];
+  input: UpdatePostInput;
 };
 
 export type Post = {
@@ -188,5 +194,18 @@ export type Posts = (
   & { posts: Array<(
     { __typename?: 'Post' }
     & Pick<Post, 'id' | 'title' | 'body' | 'createdAt'>
+  )> }
+);
+
+export type CreateContactMutationVariables = Exact<{
+  input: CreateContactInput;
+}>;
+
+
+export type CreateContactMutation = (
+  { __typename?: 'Mutation' }
+  & { createContact?: Maybe<(
+    { __typename?: 'Contact' }
+    & Pick<Contact, 'id'>
   )> }
 );
