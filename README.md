@@ -1,6 +1,12 @@
 # Redwood
 
-Personal Experience : It is too powerful, little buggy sometimes but pretty easy to get hang of, future can be quiet bright if developers keep up the amazing work. I made this full stack app with most of it auto code generation features. Still I would not recommend it to use in production right now. Provides easy deployments too.
+## Purpose
+
+To try out this lovely new jamstack.
+
+## Personal Experience
+
+It is too powerful, little buggy sometimes but pretty easy to get hang of, future can be quiet bright if developers keep up the amazing work. I made this full stack app with most of it auto code generation features. Still I would not recommend it to use in production right now. Provides easy deployments too.
 
 I would not be continuing with the tutorial or any project with this right now but in future definitely will.
 
